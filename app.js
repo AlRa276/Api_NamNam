@@ -7,6 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // ── Rutas ──────────────────────────────────────────────────────────────
+app.use('/api/auth',         require('./src/routes/authRouter'));
 app.use('/api/categorias',   require('./src/routes/categoriaRouter'));
 app.use('/api/usuarios',     require('./src/routes/usuarioRouter'));
 app.use('/api/recetas',      require('./src/routes/recetaRouter'));
