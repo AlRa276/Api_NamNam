@@ -7,6 +7,6 @@ router.get('/',       verificarToken, soloAdmin, usuarios.listar);
 router.get('/:id',    verificarToken,            usuarios.obtener);
 router.post('/',       usuarios.crear);
 router.put('/:id',    verificarToken,            usuarios.actualizar);
-router.delete('/:id', verificarToken, usuarios.eliminar);
+router.delete('/:id', verificarToken,soloAdmin, usuarios.eliminar);
 
 module.exports = router;

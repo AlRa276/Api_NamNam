@@ -1,4 +1,4 @@
-const comRepo           = require('../repositories/usuarioRepository');
+const comRepo           = require('../repositories/comentarioRepository');
 const { crearError } = require('../middlewares/errorHandler');
 
 const listarDeReceta = (id_receta) => comRepo.obtenerDeReceta(id_receta);

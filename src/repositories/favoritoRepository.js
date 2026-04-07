@@ -1,4 +1,4 @@
- const { Favorito } = require('../models');
+const { Favorito, Receta } = require('../models');
  const obtenerDeUsuario = (id_usuario) =>
     Favorito.findAll({
       where:   { id_usuario },
