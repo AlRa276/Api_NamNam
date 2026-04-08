@@ -22,4 +22,11 @@ const perfil = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-module.exports = { registrar, login, perfil };
+const logout = (req, res) => {
+  res.json({
+    ok:      true,
+    mensaje: 'Sesión cerrada correctamente. Elimina el token del cliente.',
+  });
+};
+
+module.exports = { registrar, login, perfil, logout };
