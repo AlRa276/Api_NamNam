@@ -14,6 +14,7 @@ app.use('/api/recetas',      require('./src/routes/recetaRouter'));
 app.use('/api/favoritos',    require('./src/routes/favoritoRouter'));
 app.use('/api/valoraciones', require('./src/routes/valoracionRouter'));
 app.use('/api/comentarios',  require('./src/routes/comentarioRouter'));
+app.use('/api/configuracion', require('./src/routes/configuracionGlobalRouter'));
 
 // ── Ruta de salud (health check) ───────────────────────────────────────
 app.get('/api/health', (_req, res) => {

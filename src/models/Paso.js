@@ -22,11 +22,11 @@ const Paso = sequelize.define('Paso', {
       notEmpty: { msg: 'La instrucción no puede estar vacía' },
     },
   },
-  duracion_minutos: {
+  duracion_segundos: {
     type:      DataTypes.INTEGER,
     allowNull: true,
     validate: {
-      min: { args: [1], msg: 'La duración debe ser mayor a 0' },
+      min: { args: [0], msg: 'La duración no puede ser negativa' },
     },
   },
 }, {

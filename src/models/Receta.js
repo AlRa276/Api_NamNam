@@ -30,18 +30,25 @@ const Receta = sequelize.define('Receta', {
       notEmpty: { msg: 'La descripción no puede estar vacía' },
     },
   },
+  dificultad: {
+    type:         DataTypes.ENUM('facil', 'medio', 'dificil'),
+    defaultValue: 'facil',
+    allowNull:    false,
+  },
   tiempo_prep_minutos: {
     type:      DataTypes.INTEGER,
     allowNull: false,
+    defaultValue: 0,    
     validate: {
-      min: { args: [1], msg: 'El tiempo de preparación debe ser mayor a 0' },
+      min: { args: [0], msg: 'El tiempo de preparación debe ser mayor a 0' },
     },
   },
   tiempo_coccion_minutos: {
     type:      DataTypes.INTEGER,
     allowNull: false,
+    defaultValue: 0,    
     validate: {
-      min: { args: [1], msg: 'El tiempo de cocción debe ser mayor a 0' },
+      min: { args: [0], msg: 'El tiempo de cocción debe ser mayor a 0' },
     },
   },
   porciones: {

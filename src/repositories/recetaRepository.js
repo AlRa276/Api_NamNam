@@ -6,16 +6,53 @@ const includeBase = [
   { model: Categoria, as: 'categoria', attributes: ['id', 'nombre'] },
 ];
 
-const obtenerTodas = async ({ pagina = 1, limite = 12, id_categoria, busqueda } = {}) => {
+// src/repositories/recetaRepository.js
+const obtenerTodas = async ({
+  pagina       = 1,
+  limite       = 12,
+  id_categoria,
+  busqueda,
+  tiempo_max,        
+  porciones_min,     
+  porciones_max,     
+  ingrediente,       
+} = {}) => {
   const where = {};
   if (id_categoria) where.id_categoria = id_categoria;
   if (busqueda)     where.titulo = { [Op.like]: `%${busqueda}%` };
+
+  // Filtro de tiempo total (prep + cocción)
+  if (tiempo_max) {
+    where[Op.and] = where[Op.and] || [];
+    where[Op.and].push(
+      sequelize.where(
+        sequelize.literal('(tiempo_prep_minutos + tiempo_coccion_minutos)'),
+        { [Op.lte]: Number(tiempo_max) }
+      )
+    );
+  }
+
+  // Filtro de porciones
+  if (porciones_min) where.porciones = { ...where.porciones, [Op.gte]: Number(porciones_min) };
+  if (porciones_max) where.porciones = { ...where.porciones, [Op.lte]: Number(porciones_max) };
+
+  // Filtro por ingrediente (required: true para que actúe como INNER JOIN)
+  const includeIngrediente = ingrediente
+    ? [{
+        model:    Ingrediente,
+        as:       'ingredientes',
+        attributes: [],
+        where:    { nombre: { [Op.like]: `%${ingrediente}%` } },
+        required: true,
+      }]
+    : [];
 
   const { rows: recetas, count: total } = await Receta.findAndCountAll({
     where,
     include: [
       ...includeBase,
       { model: Valoracion, as: 'valoraciones', attributes: [] },
+      ...includeIngrediente,
     ],
     attributes: {
       include: [
@@ -28,6 +65,7 @@ const obtenerTodas = async ({ pagina = 1, limite = 12, id_categoria, busqueda } 
     limit:    Number(limite),
     offset:   (Number(pagina) - 1) * Number(limite),
     subQuery: false,
+    distinct: true,
   });
 
   return { recetas, total, pagina: Number(pagina), limite: Number(limite) };
@@ -56,7 +94,7 @@ const obtenerPorId = async (id) =>
     include: [
       ...includeBase,
       { model: Ingrediente, as: 'ingredientes', attributes: ['id', 'nombre', 'cantidad', 'unidad'] },
-      { model: Paso,        as: 'pasos',        attributes: ['id', 'numero_paso', 'instruccion', 'duracion_minutos'], order: [['numero_paso', 'ASC']] },
+      { model: Paso,        as: 'pasos',        attributes: ['id', 'numero_paso', 'instruccion', 'duracion_segundos'], order: [['numero_paso', 'ASC']] },
       { model: Valoracion,  as: 'valoraciones', attributes: [] },
     ],
     attributes: {

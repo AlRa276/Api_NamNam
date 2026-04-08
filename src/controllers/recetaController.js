@@ -2,7 +2,8 @@ const service = require('../services/recetaService');
 
 const listar = async (req, res, next) => {
   try {
-    const resultado = await service.listar(req.query);
+    const filtros = { ...req.query, ...req.params };
+    const resultado = await service.listar(filtros);
     res.json({ ok: true, ...resultado });
   } catch (err) { next(err); }
 };

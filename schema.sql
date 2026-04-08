@@ -31,6 +31,7 @@ CREATE TABLE Receta (
     tiempo_prep_minutos INT NOT NULL,
     tiempo_coccion_minutos INT NOT NULL,
     porciones INT NOT NULL,
+    dificultad ENUM('facil', 'medio', 'dificil') DEFAULT 'facil',
     url_imagen TEXT,
     es_destacada BOOLEAN DEFAULT FALSE, -- Indicador para el Carrusel
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -55,7 +56,7 @@ CREATE TABLE Paso (
     id_receta INT NOT NULL,
     numero_paso INT NOT NULL,
     instruccion TEXT NOT NULL,
-    duracion_minutos INT,
+    duracion_segundos INT,
     FOREIGN KEY (id_receta) REFERENCES Receta(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
