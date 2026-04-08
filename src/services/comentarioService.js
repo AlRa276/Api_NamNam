@@ -1,4 +1,5 @@
 const comRepo           = require('../repositories/comentarioRepository');
+const recetasRepo       = require('../repositories/recetaRepository');
 const { crearError } = require('../middlewares/errorHandler');
 
 const listarDeReceta = (id_receta) => comRepo.obtenerDeReceta(id_receta);

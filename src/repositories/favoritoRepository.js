@@ -1,24 +1,24 @@
-const { Favorito, Receta } = require('../models');
- const obtenerDeUsuario = (id_usuario) =>
-    Favorito.findAll({
-      where:   { id_usuario },
-      include: [{
-        model:      Receta,
-        attributes: ['id', 'titulo', 'url_imagen', 'tiempo_prep_minutos'],
-      }],
-      order: [['fecha_guardado', 'DESC']],
-    });
+const { Favorito, Receta, Usuario } = require('../models');
 
-  const agregar =  (id_usuario, id_receta) =>
-    Favorito.findOrCreate({ where: { id_usuario, id_receta } });
+const obtenerDeUsuario = (id_usuario) =>
+  Usuario.findByPk(id_usuario, {
+    include: [{
+      model:      Receta,
+      as:         'recetasFavoritas',
+      attributes: ['id', 'titulo', 'url_imagen', 'tiempo_prep_minutos'],
+      through:    { attributes: ['fecha_guardado'] },
+    }],
+  }).then(u => u ? u.recetasFavoritas : []);
 
-  
-  const eliminar = (id_usuario, id_receta) =>
-    Favorito.destroy({ where: { id_usuario, id_receta } });
+const agregar = (id_usuario, id_receta) =>
+  Favorito.findOrCreate({ where: { id_usuario, id_receta } });
 
-  const existe = async (id_usuario, id_receta) => {
-    const fav = await Favorito.findOne({ where: { id_usuario, id_receta } });
-    return !!fav;
-  };
+const eliminar = (id_usuario, id_receta) =>
+  Favorito.destroy({ where: { id_usuario, id_receta } });
 
-  module.exports = { obtenerDeUsuario, agregar, eliminar, existe };
+const existe = async (id_usuario, id_receta) => {
+  const fav = await Favorito.findOne({ where: { id_usuario, id_receta } });
+  return !!fav;
+};
+
+module.exports = { obtenerDeUsuario, agregar, eliminar, existe };
