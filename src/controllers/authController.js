@@ -1,3 +1,5 @@
+const { Usuario } = require('../models/index'); 
+const jwt = require('jsonwebtoken');
 const service = require('../services/authService');
 
 const registrar = async (req, res, next) => {
@@ -28,5 +30,6 @@ const logout = (req, res) => {
     mensaje: 'Sesión cerrada correctamente. Elimina el token del cliente.',
   });
 };
+
 
 module.exports = { registrar, login, perfil, logout };

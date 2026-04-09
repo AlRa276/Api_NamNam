@@ -15,6 +15,14 @@ const crear = async ({ receta, ingredientes = [], pasos = [] }) => {
   if (!ingredientes.length) throw crearError(400, 'Debe incluir al menos un ingrediente');
   if (!pasos.length)        throw crearError(400, 'Debe incluir al menos un paso');
 
+  // Si el front mandó un tiempo_total directo, lo repartimos en prep
+  // Si no, lo calculamos sumando los temporizadores de los pasos (en segundos → minutos)
+  if (!receta.tiempo_prep_minutos && !receta.tiempo_coccion_minutos) {
+    const totalSegundos = pasos.reduce((sum, p) => sum + (p.duracion_segundos || 0), 0);
+    receta.tiempo_prep_minutos     = Math.ceil(totalSegundos / 60) || 1;
+    receta.tiempo_coccion_minutos  = 0;
+  }
+
   const t = await sequelize.transaction();
   try {
     const id = await repo.crear({ receta, ingredientes, pasos }, t);

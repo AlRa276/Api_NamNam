@@ -11,8 +11,8 @@ const Usuario = sequelize.define('Usuario', {
   nombre_mostrar: {
     type:      DataTypes.STRING(255),
     allowNull: false,
+    defaultValue: 'usuario',
     validate: {
-      notEmpty: { msg: 'El nombre no puede estar vacío' },
       len:      { args: [1, 255], msg: 'El nombre no puede superar 255 caracteres' },
     },
   },
