@@ -15,7 +15,7 @@ CREATE TABLE Usuario (
     nombre_mostrar VARCHAR(255) NOT NULL,
     correo_electronico VARCHAR(255) UNIQUE,
     url_foto TEXT,
-    password_hash VARCHAR(255) NULL AFTER correo_electronico,
+    password_hash VARCHAR(255) NULL,
     biografia TEXT,
     rol ENUM('usuario', 'admin') DEFAULT 'usuario',
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
