@@ -3,9 +3,20 @@ const cors    = require('cors');
 const app     = express();
 
 // ── Middlewares globales ───────────────────────────────────────────────
-app.use(cors({
-  origin: ['http://localhost:5173'],
-}));
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',      // Vite dev
+    'http://localhost:3000',      // Por si acaso
+    'https://tu-frontend.vercel.app', // Tu frontend en producción (cámbialo)
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // ← Importante: maneja el preflight
+app.use(express.json());
 app.use(express.json());
 
 // ── Rutas ──────────────────────────────────────────────────────────────
