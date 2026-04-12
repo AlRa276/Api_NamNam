@@ -14,4 +14,9 @@ const crear =    async (req, res, next) => {
         }); } catch (e) { next(e); } };
 const eliminar = async (req, res, next) => { try { await comentariosService.eliminar(Number(req.params.id)); res.json({ ok: true, mensaje: 'Comentario eliminado' }); } catch (e) { next(e); } };
 
-module.exports = { listar, crear, eliminar };
+const listarTodos = async (req, res, next) => {
+    try {
+        res.json({ ok: true, comentarios: await comentariosService.listarTodos() });
+    } catch (e) { next(e); }
+};
+module.exports = { listar, crear, eliminar, listarTodos };

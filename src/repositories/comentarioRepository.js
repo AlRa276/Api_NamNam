@@ -11,4 +11,12 @@ const crear = (datos) => Comentario.create(datos);
 
 const eliminar = (id) => Comentario.destroy({ where: { id } });
 
-module.exports = { obtenerDeReceta, crear, eliminar };
+const obtenerTodos = () => Comentario.findAll({
+    include: [
+        { model: Usuario, as: 'autor', attributes: ['id', 'nombre_mostrar', 'url_foto'] },
+        { model: Receta,  as: 'receta',  attributes: ['id', 'titulo'] },
+    ],
+    order: [['fecha_creacion', 'DESC']],
+});
+
+module.exports = { obtenerDeReceta, crear, eliminar, obtenerTodos };

@@ -16,4 +16,6 @@ const eliminar = async (id) => {
     if (!n) throw crearError(404, 'Comentario no encontrado');
 };
 
-module.exports = { listarDeReceta, crear, eliminar };
+const listarTodos = () => comRepo.obtenerTodos();
+
+module.exports = { listarDeReceta, crear, eliminar, listarTodos };
