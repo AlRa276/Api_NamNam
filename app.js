@@ -16,8 +16,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // ← Importante: maneja el preflight
-app.use(express.json());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // ── Rutas ──────────────────────────────────────────────────────────────
 app.use('/api/auth',         require('./src/routes/authRouter'));
