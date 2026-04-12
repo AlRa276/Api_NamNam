@@ -5,7 +5,14 @@ const obtenerDeUsuario = (id_usuario) =>
     include: [{
       model:      Receta,
       as:         'recetasFavoritas',
-      attributes: ['id', 'titulo', 'url_imagen', 'tiempo_prep_minutos'],
+      attributes: ['id', 'titulo', 'url_imagen', 'tiempo_prep_minutos',
+        'tiempo_coccion_minutos', // 👈 agregar
+        'dificultad',             // 👈 agregar
+        'porciones',              // 👈 agregar
+        'puntuacion_promedio',    // 👈 agregar
+        'descripcion'           // 👈 agregar
+      
+      ],
       through:    { attributes: ['fecha_guardado'] },
     }],
   }).then(u => u ? u.recetasFavoritas : []);
