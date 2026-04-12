@@ -6,7 +6,7 @@ const crear =    async (req, res, next) => {
         const c = await comentariosService.crear(
             Number(req.params.id_receta), 
             { ...req.body,
-                 id_usuario: req.user.id
+                 id_usuario: req.id_usuario.id
              }
         ); 
         res.status(201).json({ 
