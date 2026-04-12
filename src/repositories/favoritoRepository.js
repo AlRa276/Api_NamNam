@@ -9,7 +9,6 @@ const obtenerDeUsuario = (id_usuario) =>
         'tiempo_coccion_minutos', // 👈 agregar
         'dificultad',             // 👈 agregar
         'porciones',              // 👈 agregar
-        'puntuacion_promedio',    // 👈 agregar
         'descripcion'           // 👈 agregar
       
       ],
