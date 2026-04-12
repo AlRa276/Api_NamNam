@@ -24,11 +24,18 @@ const obtener = async (req, res, next) => {
 
 const crear = async (req, res, next) => {
   try {
-    const receta = await service.crear(req.body);
+    // req.usuario viene del middleware verificarToken
+    const datos = {
+      ...req.body,
+      receta: {
+        ...req.body.receta,
+        id_creador: req.usuario.id, // 👈 toma el id del token
+      }
+    };
+    const receta = await service.crear(datos);
     res.status(201).json({ ok: true, receta });
   } catch (err) { next(err); }
 };
-
 // El body puede tener { receta, ingredientes, pasos } en cualquier combinación
 const actualizar = async (req, res, next) => {
   try {
