@@ -1,4 +1,4 @@
-const { Comentario, Usuario } = require('../models');
+const { Comentario, Usuario, Receta } = require('../models');
 const obtenerDeReceta = (id_receta) =>
   Comentario.findAll({
     where:   { id_receta },
