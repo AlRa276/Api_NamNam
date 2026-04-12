@@ -1,6 +1,7 @@
 const comentariosService = require('../services/comentarioService');
 
-const listar =   async (req, res, next) => { try { res.json({ ok: true, comentarios: await comentariosService.listarDeReceta(Number(req.params.id_receta)) }); } catch (e) { next(e); } };
+const listar =   async (req, res, next) => { 
+    try { res.json({ ok: true, comentarios: await comentariosService.listarDeReceta(Number(req.params.id_receta)) }); } catch (e) { next(e); } };
 const crear =    async (req, res, next) => { 
     try { 
         const c = await comentariosService.crear(

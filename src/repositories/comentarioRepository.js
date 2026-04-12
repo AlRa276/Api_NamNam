@@ -13,7 +13,7 @@ const eliminar = (id) => Comentario.destroy({ where: { id } });
 
 const obtenerTodos = () => Comentario.findAll({
     include: [
-        { model: Usuario, as: 'usuario', attributes: ['id', 'nombre_mostrar', 'url_foto'] },
+        { model: Usuario, as: 'usuario', attributes: ['id', 'nombre_mostrar', 'url_foto'] }, 
         { model: Receta,  as: 'receta',  attributes: ['id', 'titulo'] },
     ],
     order: [['fecha_creacion', 'DESC']],
