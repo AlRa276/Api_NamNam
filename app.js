@@ -6,8 +6,8 @@ const app     = express();
 const corsOptions = {
   origin: [
     'http://localhost:5173',      // Vite dev
-    'http://localhost:3000',      // Por si acaso
-    'https://tu-frontend.vercel.app', // Tu frontend en producción (cámbialo)
+    'http://localhost:5175',      // Por si acaso
+    'https://namnam.devpaulvelasco.com', // Tu frontend en producción (cámbialo)
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
