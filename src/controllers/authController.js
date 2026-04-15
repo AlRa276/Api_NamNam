@@ -32,4 +32,61 @@ const logout = (req, res) => {
 };
 
 
-module.exports = { registrar, login, perfil, logout };
+const admin = require('../config/firebase');
+
+
+const loginConGoogle = async (req, res) => {
+    try {
+        const { idToken } = req.body;
+
+        if (!idToken) {
+            return res.status(400).json({ error: "El token de Firebase es requerido" });
+        }
+
+        // 1. Verificar el token usando Firebase Admin
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        const { email, name, picture } = decodedToken;
+
+        // 2. Buscar si el usuario ya existe en tu base de datos local
+        let usuario = await Usuario.findOne({ where: { email } });
+
+        // 3. Si no existe, registrar al usuario automáticamente
+        if (!usuario) {
+            usuario = await Usuario.create({
+                email: email,
+                nombre: name, // O ajusta según los campos de tu DB
+                // Como inicia con Google, no hay contraseña.
+                // Puedes guardar un hash aleatorio o adaptar tu modelo para que el password sea nullable.
+                password: 'login_social_google', 
+                foto_perfil: picture
+            });
+        }
+
+        // 4. Generar tu JWT local de la misma forma que en el login tradicional
+        const tokenLocal = jwt.sign(
+            { id: usuario.id, email: usuario.email },
+            process.env.JWT_SECRET, // La variable secreta de tu archivo .env
+            { expiresIn: '24h' }
+        );
+
+        // 5. Devolver tu token al Frontend
+        return res.status(200).json({
+            mensaje: "Login con Google exitoso",
+            token: tokenLocal,
+            usuario: {
+                id: usuario.id,
+                nombre: usuario.nombre,
+                email: usuario.email
+            }
+        });
+
+    } catch (error) {
+        console.error("Error validando el token de Google:", error);
+        return res.status(401).json({ error: "Token de Google inválido o expirado" });
+    }
+};
+
+
+
+
+module.exports = { registrar, login, perfil, logout /*, loginConGoogle */ };

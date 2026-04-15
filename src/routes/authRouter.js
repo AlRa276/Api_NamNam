@@ -10,4 +10,6 @@ router.post('/logout',   verificarToken, auth.logout);
 // Ruta protegida — requiere token válido
 router.get('/perfil', verificarToken, auth.perfil);
 
+router.post('/google', authController.loginConGoogle);
+
 module.exports = router;
