@@ -43,45 +43,54 @@ const loginConGoogle = async (req, res) => {
             return res.status(400).json({ error: "El token de Firebase es requerido" });
         }
 
-        // 1. Verificar el token usando Firebase Admin
+        
         const decodedToken = await admin.auth().verifyIdToken(idToken);
         const { email, name, picture } = decodedToken;
 
-        // 2. Buscar si el usuario ya existe en tu base de datos local
-        let usuario = await Usuario.findOne({ where: { email } });
+        
+        let usuario = await Usuario.findOne({ 
+            where: { correo_electronico: email } 
+        });
 
-        // 3. Si no existe, registrar al usuario automáticamente
+        // 3. Si no existe, registrar al usuario con los campos exactos de tu DB
         if (!usuario) {
             usuario = await Usuario.create({
-                email: email,
-                nombre: name, // O ajusta según los campos de tu DB
-                // Como inicia con Google, no hay contraseña.
-                // Puedes guardar un hash aleatorio o adaptar tu modelo para que el password sea nullable.
-                password: 'login_social_google', 
-                foto_perfil: picture
+                correo_electronico: email,
+                nombre_mostrar: name, 
+                url_foto: picture,
+                rol: 'usuario', // O el rol por defecto que uses
+                // Para el password, al ser social login, usamos un valor placeholder
+                password_hash: 'login_social_google_no_password'
             });
         }
 
-        // 4. Generar tu JWT local de la misma forma que en el login tradicional
+        
         const tokenLocal = jwt.sign(
-            { id: usuario.id, email: usuario.email },
-            process.env.JWT_SECRET, // La variable secreta de tu archivo .env
+            { id: usuario.id, email: usuario.correo_electronico },
+            process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
-        // 5. Devolver tu token al Frontend
+      
         return res.status(200).json({
             mensaje: "Login con Google exitoso",
             token: tokenLocal,
             usuario: {
                 id: usuario.id,
-                nombre: usuario.nombre,
-                email: usuario.email
+                nombre: usuario.nombre_mostrar,
+                email: usuario.correo_electronico
             }
         });
 
     } catch (error) {
-        console.error("Error validando el token de Google:", error);
+        // Imprimimos el error real en la consola de Railway para poder debuguear
+        console.error("Error en loginConGoogle:", error);
+        
+        // Si el error es de base de datos, lo enviamos específicamente (opcional para desarrollo)
+        if (error.name === 'SequelizeDatabaseError') {
+            return res.status(500).json({ error: "Error de base de datos", detalle: error.message });
+        }
+
         return res.status(401).json({ error: "Token de Google inválido o expirado" });
     }
 };
