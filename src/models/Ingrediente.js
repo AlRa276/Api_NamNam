@@ -28,6 +28,7 @@ const Ingrediente = sequelize.define('Ingrediente', {
   unidad: {
     type:      DataTypes.STRING(50),
     allowNull: false,
+    defaultValue: 'gramos',
     validate: {
       notEmpty: { msg: 'La unidad no puede estar vacía' },
     },
