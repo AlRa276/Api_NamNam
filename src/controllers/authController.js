@@ -89,4 +89,4 @@ const loginConGoogle = async (req, res) => {
 
 
 
-module.exports = { registrar, login, perfil, logout /*, loginConGoogle */ };
+module.exports = { registrar, login, perfil, logout, loginConGoogle };
