@@ -66,7 +66,7 @@ const loginConGoogle = async (req, res) => {
 
         
         const tokenLocal = jwt.sign(
-            { id: usuario.id, email: usuario.correo_electronico },
+            { id: usuario.id, email: usuario.correo_electronico, rol : usuario.rol },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
@@ -78,7 +78,8 @@ const loginConGoogle = async (req, res) => {
             usuario: {
                 id: usuario.id,
                 nombre: usuario.nombre_mostrar,
-                email: usuario.correo_electronico
+                email: usuario.correo_electronico,
+                rol: usuario.rol
             }
         });
 
