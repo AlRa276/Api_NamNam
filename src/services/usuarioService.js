@@ -31,4 +31,4 @@ const eliminar = async (id) => {
   await repo.eliminar(id);
 };
 
-module.exports = { listar, obtener, crear, actualizar, eliminar };
+module.exports = { obtener, crear, actualizar, eliminar };

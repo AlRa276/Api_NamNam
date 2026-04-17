@@ -7,4 +7,4 @@ const actualizar = async (req, res, next) => { try { res.json({ ok: true, usuari
 const eliminar =   async (req, res, next) => { try { await usuariosService.eliminar(Number(req.params.id)); res.json({ ok: true, mensaje: 'Usuario eliminado' }); } catch (e) { next(e); } };
 
 
-module.exports = { listar, obtener, crear, actualizar, eliminar };
+module.exports = {obtener, crear, actualizar, eliminar };

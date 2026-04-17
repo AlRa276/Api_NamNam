@@ -19,4 +19,4 @@ const actualizar = async (id, datos) =>
 const eliminar = async (id) =>
   Usuario.destroy({ where: { id } });
 
-module.exports = { obtenerTodos, obtenerPorId, obtenerPorCorreo, crear, actualizar, eliminar };
+module.exports = {obtenerPorId, obtenerPorCorreo, crear, actualizar, eliminar };
