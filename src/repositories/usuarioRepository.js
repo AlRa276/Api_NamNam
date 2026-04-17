@@ -1,10 +1,6 @@
 const { Usuario } = require('../models');
 
-const obtenerTodos = async () =>
-  Usuario.findAll({
-    attributes: { exclude: ['biografia'] },
-    order: [['fecha_creacion', 'DESC']],
-  });
+
 
 const obtenerPorId = async (id) =>
   Usuario.findByPk(id, {

@@ -3,7 +3,7 @@ const  usuarios = require('../controllers/usuarioController');
 
 const { verificarToken, soloAdmin } = require('../middlewares/auth');
 
-router.get('/',       verificarToken, soloAdmin, usuarios.listar);
+
 router.get('/:id',    verificarToken,            usuarios.obtener);
 router.post('/',       usuarios.crear);
 router.put('/:id',    verificarToken,            usuarios.actualizar);

@@ -1,7 +1,7 @@
 const repo           = require('../repositories/usuarioRepository');
 const { crearError } = require('../middlewares/errorHandler');
 
-const listar  = ()     => repo.obtenerTodos();
+
 const obtener = async (id) => {
   const u = await repo.obtenerPorId(id);
   if (!u) throw crearError(404, 'Usuario no encontrado');

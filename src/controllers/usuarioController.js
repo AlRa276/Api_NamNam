@@ -1,6 +1,6 @@
 const usuariosService = require('../services/usuarioService');
 
-const listar =     async (req, res, next) => { try { res.json({ ok: true, usuarios: await usuariosService.listar() }); } catch (e) { next(e); } };
+
 const obtener =    async (req, res, next) => { try { res.json({ ok: true, usuario: await usuariosService.obtener(Number(req.params.id)) }); } catch (e) { next(e); } };
 const crear =      async (req, res, next) => { try { res.status(201).json({ ok: true, usuario: await usuariosService.crear(req.body) }); } catch (e) { next(e); } };
 const actualizar = async (req, res, next) => { try { res.json({ ok: true, usuario: await usuariosService.actualizar(Number(req.params.id), req.body) }); } catch (e) { next(e); } };
